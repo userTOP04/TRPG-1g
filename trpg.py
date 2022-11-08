@@ -5,8 +5,8 @@ import shop
 def show_menu():
     """
     Показывает главное меню
-    И него начинается игра или заканчивается программа
     TODO:
+    И него начинается игра или заканчивается программа
         Настройка цвет: текста
         Сохранение/загрузка
     """
@@ -38,22 +38,23 @@ def start_game():
     Игра конролируется переменной is_game
     """
 
-
+    # Создаем игрока КОРТЕЖ
     player_name = input("Введите имя игрока и нажите ENTER")
-    player_maney = 50
     player_hp = 100
+    player_maney = 50
     player_xp = 0
     player_pt = 0
+    player = (player_name, player_maney, player_hp, player_xp, player_pt)
 
 
     is_game = True
     while is_game:
         os.system("cls")
-        print(f"имя: {player_name}")
-        print(f"деньги: {player_maney}")
-        print(f"жизни: {player_hp}")
-        print(f"опыт: {player_xp}")
-        print(f"зелья: {player_pt}")
+        print(f"имя:", player[0])
+        print(f"деньги", player[1])
+        print(f"жизни", player[2])
+        print(f"опыт", player[3])
+        print(f"зелья", player[4])
         print("1 - Поеду-ка я где убитому быть. Умру в чистом поле, как славный богатырь")
         print("2 - Ну, поеду где богатому быть")
         print("3 - Ну, поеду в магазин")
@@ -67,7 +68,7 @@ def start_game():
         if answer == "2":
             print("Поехал в казино")
         if answer == "3":
-            shop.shop(player_name, player_maney, player_hp, player_xp, player_pt)
+            player = shop.shop(player)
 
         input("Нажмите ENTER для продолжения")
 
