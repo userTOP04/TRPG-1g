@@ -1,17 +1,14 @@
-
 import os
 
 
 
-def shop(player):
+def shop(player:tuple) -> tuple:
 
+
+    money = player[1]
+    pt = player[4]
     name = player[0]
     hp = player[2]
-    money = player[1]
-    xp = player[3]
-    pt = player[4]
-
-
     while True:
 
         os.system("cls")
@@ -41,4 +38,4 @@ def shop(player):
             input("нажмите ENTER")
 
         elif answer == "2":
-            return (name, hp, money, xp, pt)
+            return (name, hp, money, xp, at, df, pt)
