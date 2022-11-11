@@ -1,5 +1,41 @@
 import os
 import shop
+from random import randint, choice
+
+
+first_names = ("Жран", "Дрын", "Брысь", "Морти")
+last_names =  ("Борзый", "Вонючий" , "Злой", "ЛОХ")
+
+def make_hero(
+        name=None,
+        money=None,
+        hp=None,
+        xp=None,
+        at=None,
+        df=None,
+        pt=None
+) -> tuple:
+    if not name:
+        name = f"{choice(first_names)} {choice(last_names)}"
+    if not money:
+        money = randint(1, 50)
+    if not hp:
+        hp = randint(1, 100)
+    if not xp:
+        xp = randint(0, 5)
+    if not at:
+        at = randint(1, 5)
+    if not df:
+        df = randint(1, 10)
+    if not pt:
+        pt = randint(0, 3)
+    return (name, money, hp, xp, at, df, pt)
+
+player = make_hero(name="Безымянный", money=50, hp=100, xp=0, at=1, df=0, pt=0)
+
+prototupe = make_hero()
+prototupe1 = make_hero()
+prototupe2 = make_hero()
 
 
 def show_menu():
@@ -39,12 +75,7 @@ def start_game():
     """
 
     # Создаем игрока КОРТЕЖ
-    player_name = input("Введите имя игрока и нажите ENTER")
-    player_hp = 100
-    player_maney = 50
-    player_xp = 0
-    player_pt = 0
-    player = (player_name, player_maney, player_hp, player_xp, player_pt)
+    player = make_hero(pt=5)
 
 
     is_game = True
