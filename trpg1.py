@@ -1,5 +1,5 @@
 from random import randint, choice
-import shop
+
 
 
 first_names = ("Жран", "Дрын", "Брысь", "Морти")
@@ -11,7 +11,7 @@ def make_hero(
     name=None,
     hp_now=None,
     lvl=1,
-    xp_next=1000,
+    xp_next=None,
     xp_now=0,
     at=10,
     df=0,
@@ -46,6 +46,7 @@ def make_hero(
         money = randint(0, 50)
     if not inventory:
         inventory = []
+    xp_next = lvl * 1000
     return [
         name,
         hp_max,
@@ -63,7 +64,23 @@ def make_hero(
     ]
 
 
-def show_hero()
+
+
+
+    print("имя:", hero[0])
+    print("жизни:", hero[2] "/" hero[1])
+    print("опыт:", )
+    print("атака:", hero[6])
+    print("защита:", hero[7])
+    print(оружие)
+    print(щит)
+    print(деньги)
+    print(удача)
+    print(инвентарь)
+
+
+levelup(hero: list)
+
 pl = make_hero()
 pl1 = make_hero()
 print(pl)
