@@ -1,6 +1,7 @@
 from trpg import *
 
 
-pl = make_hero(money=100,)
-print_hero(pl)
-
+pleyer = make_hero(name="Вася питонов",inventory="МУЧЬ БОГА")
+start_fight(pleyer)
+input("Итоги:")
+print_hero(pleyer)

@@ -1,3 +1,4 @@
+
 import os
 from random import randint, choice
 
@@ -133,7 +134,11 @@ def consume_item(hero: list, item: str, idx):
             hero[2] += 10
             if hero[2] > hero[1]:
                 hero[2] = hero[1]
-
+        elif hero[12][idx] == "яблоко":
+            print(f"{name} съел яблоко")
+        else:
+            print(f"{name} съел {hero[12][idx]}")
+        hero[12].pop[ind]
 
 
 
@@ -156,4 +161,43 @@ def play_dice(hero: list, bet: int):
             print(f"У {hero[0]} нет столько монет!")
 
 
-def start_fight(hero: list)
+def start_fight(hero: list):
+
+
+    enemy = make_hero(name="ЛОХ",inventory=["Жопа Бобра", "ПАЛКА ЛОХА"], xp_now=1000)
+    while hero[2] > 0 and enemy[2] > 0:
+        combut_turn(hero, enemy)
+        input(print(f"жизни {hero[2]} у {hero[0]} "))
+        combut_turn(enemy, hero)
+        input(print(f"жизни {enemy[2]} у {enemy[0]}"))
+    os.system("cls")
+    print("бой закончен")
+    
+
+
+def comdat_result(hero, enemy):
+    """
+    Если игрок победил:
+        Забирает опыт, деньги, предметы игрока
+
+    """
+    os.system("cls")
+    if hero[2] > 0 and enemy[2] <= 0:
+        print(f"{hero[0]} победил противника {enemy[0]} ")
+        print(enemy[5], "опыта")
+        hero[10] += enemy[10]
+        print(enemy[10], "монет")
+        print("И забирает предметы")
+        print(*enemy[12])
+        hero[12] += enemy[12]
+        levelup(hero)
+
+
+
+def combut_turn(attacker: list, defender: list):
+    if attacker[2] > 0:
+        damage = attacker[6]
+        defender[2] -= damage
+        print(f"{attacker[0]} ударил {defender[0]} на {damage} здоровье")
+
+
