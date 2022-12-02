@@ -183,6 +183,7 @@ def comdat_result(hero, enemy):
     """
     if hero[2] > 0 and enemy[2] <= 0:
         print(f"{hero[0]} победил противника {enemy[0]} ")
+        hero[5] += enemy[5]
         print(enemy[5], "опыта")
         hero[10] += enemy[10]
         print(enemy[10], "монет")
@@ -192,7 +193,12 @@ def comdat_result(hero, enemy):
         print(*enemy[12])
         hero[12] += enemy[12]
         levelup(hero)
-
+    elif enemy[2] > 0 and hero[2] <=0:
+        print(f"{enemy[0]} победил противника {hero[0]}")
+        print("Игра окончена")
+    else:
+        print("Никто не победил. Ничья")
+            
 
 
 def combut_turn(attacker: list, defender: list):
@@ -244,4 +250,3 @@ def visit_hub(hero):
     elif option == 3:
         consume_item(hero, 0)
     input("\nВведите номер вариантаи нажмите ENTER")
-    
