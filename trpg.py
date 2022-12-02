@@ -1,4 +1,3 @@
-
 import os
 from random import randint, choice
 
@@ -164,12 +163,14 @@ def play_dice(hero: list, bet: int):
 def start_fight(hero: list):
 
 
-    enemy = make_hero(name="ЛОХ",inventory=["Жопа Бобра", "ПАЛКА ЛОХА"], xp_now=1000)
+    enemy = make_hero(name="Злой питон", inventory=["мечь питона", "шит питона"], xp_now=2000)
     while hero[2] > 0 and enemy[2] > 0:
+        os.system("cls")
         combut_turn(hero, enemy)
-        input(print(f"жизни {hero[2]} у {hero[0]} "))
         combut_turn(enemy, hero)
-        input(print(f"жизни {enemy[2]} у {enemy[0]}"))
+        print_hero(hero)
+        print_hero(enemy)
+        pause = input("Чтобы продолжить нажмите ENTER")
     os.system("cls")
     print("бой закончен")
     
@@ -179,15 +180,15 @@ def comdat_result(hero, enemy):
     """
     Если игрок победил:
         Забирает опыт, деньги, предметы игрока
-
     """
-    os.system("cls")
     if hero[2] > 0 and enemy[2] <= 0:
         print(f"{hero[0]} победил противника {enemy[0]} ")
         print(enemy[5], "опыта")
         hero[10] += enemy[10]
         print(enemy[10], "монет")
         print("И забирает предметы")
+        for item in enemy[12]:
+            print(item, end=",")
         print(*enemy[12])
         hero[12] += enemy[12]
         levelup(hero)
@@ -201,3 +202,46 @@ def combut_turn(attacker: list, defender: list):
         print(f"{attacker[0]} ударил {defender[0]} на {damage} здоровье")
 
 
+def choose_option(hero: list, text: str, options: list):
+    print_hero()
+    test = "Герой приехал к камню"
+    options = [
+        "Сыграть в кости",
+        "Бится с разбойником",
+        "Купить зелье",
+        "Выпить зелье",
+]
+    print(test)
+    for num, option in enumerate(options):
+        option = input("\nВведите номер вариантаи нажмите ENTER: ")
+    try:
+        option = int(option)
+    except: #Выполняем если трай не выполнился
+        print("Ввол должен быть цулым неотрицательным числом")
+    else:
+        print("")
+        if option < ltn(option) and option > -1:
+            return option
+        else:
+            print("Нет такой опции")
+
+
+def visit_hub(hero):
+    text = f"{hero[0]} приехал к камню. Отсюда уходят несколько дорог:"
+    options = [
+    "Сыграть в кости",
+    "Бится с разбойником",
+    "Купить зелье",
+    "Выпить зелье",
+    ]
+    option = choose_option(hero, text, options)
+    if option == 0:
+        play_dice(hero, 10)
+    elif option == 1:
+        start_fight(hero)
+    elif option == 2:
+        buy_item(hero, 10, "зелье")
+    elif option == 3:
+        consume_item(hero, 0)
+    input("\nВведите номер вариантаи нажмите ENTER")
+    
