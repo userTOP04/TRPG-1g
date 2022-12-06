@@ -163,7 +163,7 @@ def play_dice(hero: list, bet: int):
 def start_fight(hero: list):
 
 
-    enemy = make_hero(name="Злой питон", inventory=["мечь питона", "шит питона"], xp_now=2000)
+    enemy = make_hero(name="Злой питон", inventory=["мечь питона", "шит питона"], xp_now=2000, )
     while hero[2] > 0 and enemy[2] > 0:
         os.system("cls")
         combut_turn(hero, enemy)
@@ -209,44 +209,54 @@ def combut_turn(attacker: list, defender: list):
 
 
 def choose_option(hero: list, text: str, options: list):
-    print_hero()
-    test = "Герой приехал к камню"
-    options = [
-        "Сыграть в кости",
-        "Бится с разбойником",
-        "Купить зелье",
-        "Выпить зелье",
-]
-    print(test)
+    print_hero(hero)
+    print(text)
     for num, option in enumerate(options):
-        option = input("\nВведите номер вариантаи нажмите ENTER: ")
+        print(f"{num}. {option}")
+    option = input("\nВведите номер вариантаи нажмите ENTER: ")
     try:
         option = int(option)
     except: #Выполняем если трай не выполнился
-        print("Ввол должен быть цулым неотрицательным числом")
+        print("Ввод должен быть цулым неотрицательным числом")
     else:
         print("")
-        if option < ltn(option) and option > -1:
+        if option < len(options) and option > -1:
             return option
         else:
             print("Нет такой опции")
+    input("Пауза после выбора опции")
 
 
-def visit_hub(hero):
-    text = f"{hero[0]} приехал к камню. Отсюда уходят несколько дорог:"
+def visit_hub(hero: list):
+    text = f"{hero[0]} приехал в хаб, сдесь есть чем заняться:"
     options = [
-    "Сыграть в кости",
-    "Бится с разбойником",
-    "Купить зелье",
-    "Выпить зелье",
+        "Заглянуть в лавку алхимика",
+        "Поехать обратно в главное меню"
     ]
     option = choose_option(hero, text, options)
+    os.system("cls")
     if option == 0:
-        play_dice(hero, 10)
+        return visit_shop(hero)    
     elif option == 1:
-        start_fight(hero)
+        print("Типо ушли в меню")  
+    input("\n нажмите ENTER чтобы продолжить от хаба")
+
+
+
+def visit_shop(hero: list):
+    text = f"{hero[0]} приехал в лавку алхимика, сдесь странно пахнут и продаются зелья:"
+    options = [
+    "Купить зелье лечение за 10 монет",
+    "Купить зелье опыта за 30 монет",
+    "Приехать в хаб"
+    ]
+    input("В магазине")
+    option = choose_option(hero, text, options)
+    if option == 0:
+        buy_item(hero, 10, "зелье лечение")
+        return visit_shop(hero)
+    elif option == 1:
+        buy_item(hero, 30, "зелье опыта")
+        return visit_shop(hero)
     elif option == 2:
-        buy_item(hero, 10, "зелье")
-    elif option == 3:
-        consume_item(hero, 0)
-    input("\nВведите номер вариантаи нажмите ENTER")
+        visit_hub(hero)
