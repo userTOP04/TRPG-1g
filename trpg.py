@@ -42,7 +42,7 @@ def make_hero(
         name = f"{choice(first_names)} {choice(last_names)}"
     if not hp_now:
         hp_now = randint(1, 100)
-        hp_max = hp_now
+    hp_max = hp_now
     if money is None:
         money = randint(0, 50)
     if not inventory:
@@ -94,11 +94,10 @@ def buy_item(hero: list, price: int) -> None:
     [0] name - имя персонажа
     [10] money - деньги персонажа
     [12] inventory - инвентарь
-    """
-
+    """ 
     if hero[10] >= price:
         hero[10] -= price
-        hero[12].appent("зелье")
+        hero[12].append("зелье")
         print(f"{hero[0]} купил зелье за {price} монет!/n")
     else:
         print(f"{hero[0]} не хватило {price - hero[10]} монет!/n")
@@ -125,7 +124,7 @@ def consume_item(hero: list, item: str, idx):
         print(f"{hero[0]} употребил {hero[12][idx]}")
 
 
-        if hero[12][idx] == "зелье":
+        if hero[12][idx] == "зелье лечение":
             """
             [1] hp_max
             [2] hp_now
@@ -142,22 +141,28 @@ def consume_item(hero: list, item: str, idx):
 
 
 def play_dice(hero: list, bet: int):
-    if bet > 0:
-        if bet <= hero[10]:
-            hero_score = randint(2, 12)
-            casino_store = randint(2, 12)
-            print(f"{hero[0]} выбросил {hero_score}")
-            print(f" трактирщик выбросил {casino_score}")
-            if hero_score > casino_store:
-                hero[10] += bet
-                print(f"{hero[0]} победил и забирает {bet} монет")
-            elif hero_score < casino_store:
-                hero[10] -= bet
-                print(f"{hero[0]} проиграл {bet} монет")
+    if bet <= hero[10]:
+        if bet > 0:
+            if bet <= hero[10]:
+                hero_score = randint(2, 12)
+                casino_store = randint(2, 12)
+                print(f"{hero[0]} выбросил {hero_score}")
+                print(f" трактирщик выбросил {casino_store}")
+                if hero_score > casino_store:
+                    hero[10] += bet
+                    print(f"{hero[0]} победил и забирает {bet} монет")
+                elif hero_score < casino_store:
+                    hero[10] -= bet
+                    print(f"{hero[0]} проиграл {bet} монет")
+                else:
+                    print("Ничья")
+                input("нажмите ENTER для продолжения")
             else:
-                print("Ничья")
-        else:
-            print(f"У {hero[0]} нет столько монет!")
+                print(f"У {hero[0]} нет столько монет!")
+                input("нажмите ENTER для продолжения")
+    else:
+        print("Вы не можете поставить столько монет потому что у вас их столько нет")
+        input("нажмите ENTER для продолжения")
 
 
 def start_fight(hero: list):
@@ -173,6 +178,7 @@ def start_fight(hero: list):
         pause = input("Чтобы продолжить нажмите ENTER")
     os.system("cls")
     print("бой закончен")
+    comdat_result(hero, enemy)
     
 
 
@@ -231,32 +237,75 @@ def visit_hub(hero: list):
     text = f"{hero[0]} приехал в хаб, сдесь есть чем заняться:"
     options = [
         "Заглянуть в лавку алхимика",
+        "Заглянуть в трактир",
+        "Поехать на арену",
         "Поехать обратно в главное меню"
     ]
     option = choose_option(hero, text, options)
     os.system("cls")
     if option == 0:
-        return visit_shop(hero)    
+        return visit_shop(hero)
     elif option == 1:
+        return visit_cosino(hero) 
+    elif option == 2:
+        return visit_arena(hero)   
+    elif option == 3:
         print("Типо ушли в меню")  
     input("\n нажмите ENTER чтобы продолжить от хаба")
 
 
 
 def visit_shop(hero: list):
+    os.system("cls")
     text = f"{hero[0]} приехал в лавку алхимика, сдесь странно пахнут и продаются зелья:"
     options = [
     "Купить зелье лечение за 10 монет",
-    "Купить зелье опыта за 30 монет",
     "Приехать в хаб"
     ]
     input("В магазине")
     option = choose_option(hero, text, options)
     if option == 0:
-        buy_item(hero, 10, "зелье лечение")
+        buy_item(hero, 10 )
         return visit_shop(hero)
     elif option == 1:
-        buy_item(hero, 30, "зелье опыта")
-        return visit_shop(hero)
+        visit_hub(hero)
+
+
+def visit_cosino(hero: list):
+    os.system("cls")
+    input("в казино")
+    text = f"{hero[0]} приехал в трактир, трактирщик предлогает сыграть на деньги "
+    options = [
+        "Сыграть на деньги с трактирщиком в кости",
+        "Приехать в хаб"
+    ]
+    option = choose_option(hero, text, options)
+    if option == 0:
+        bet = int(input("Сделайте ставку"))
+        play_dice(hero, bet)
+        return visit_cosino(hero)    
+    elif option == 1:
+        visit_hub(hero)
+
+
+def visit_arena(hero: list):
+    os.system("cls")
+    input("в казино")
+    text = f"{hero[0]} приехал на арену где сражаются бойцы"
+    options = [
+        "Сражаться с бйцами",
+        "Съесть предмет из инвенторя",
+        "Уехать в хаб"
+    ]
+    if "зелье лечение" in hero[12]:
+        options.append("Выпить зелье лечения")
+    option = choose_option(hero, text, options)
+    if option == 0:
+        start_fight(hero)
+    elif option == 1:
+        idx = choose_option(hero, "", hero[12]) 
+        os.system("cls")
+        if idx is not None:
+            consume_item(hero)  
     elif option == 2:
         visit_hub(hero)
